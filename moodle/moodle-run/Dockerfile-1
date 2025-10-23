@@ -13,15 +13,6 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
 # Clean up to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install New Relic PHP agent
-RUN curl -Ls https://download.newrelic.com/php_agent/archive/10.16.0.0/newrelic-php5-10.16.0.0-linux.tar.gz | tar -C /tmp -zx \
- && cd /tmp/newrelic-php5-* \
- && NR_INSTALL_USE_CP_NOT_LN=1 NR_INSTALL_SILENT=1 ./newrelic-install install
-
-# Set New Relic environment variables
-ENV NEW_RELIC_LICENSE_KEY="eu01xxbdd807d2aef47fd3b11acf350aFFFFNRAL"
-ENV NEW_RELIC_APP_NAME="Moodle-LMS"
-
 # Clone the Moodle repository and check out the desired branch
 RUN git clone git://git.moodle.org/moodle.git && \
     cd moodle && \
@@ -45,6 +36,3 @@ RUN chown -R www-data:www-data /var/www/ && \
 
 # Expose port 80
 EXPOSE 80
-
-# Start Apache with New Relic agent
-CMD ["apache2-foreground"]

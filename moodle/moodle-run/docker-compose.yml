@@ -6,7 +6,7 @@ services:
       context: .
     image: moodleapp:1.0
     ports:
-      - "8080:80"
+      - "8080:80"                # use 8080 on host to avoid conflicts
     volumes:
       - moodledata:/var/www/moodledata
     depends_on:
@@ -16,7 +16,7 @@ services:
       - moodlenet
 
   moodledb:
-    image: mysql:8.0
+    image: mysql:8.0.36         # official MySQL 8.0.x; 8.4 not available
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -39,7 +39,7 @@ services:
     ports:
       - "8081:80"
     environment:
-      PMA_HOST: moodledb
+      PMA_HOST: moodledb           # use service name, not container_name
       PMA_PORT: "3306"
       PMA_USER: ${MYSQL_USER}
       PMA_PASSWORD: ${MYSQL_PASSWORD}
