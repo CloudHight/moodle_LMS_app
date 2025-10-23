@@ -1,0 +1,9 @@
+# Ignore .SQL File
+
+*.sql
+
+*.env
+
+.\moodle*
+
+*.zip
